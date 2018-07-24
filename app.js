@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    $('#test').hide();
+}) ;
+
 document.getElementById("myBtn").onclick =  function () {
     // snippet per SDK facebook
     window.fbAsyncInit = function() {
@@ -46,4 +50,25 @@ document.getElementById("myBtn").onclick =  function () {
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
+    $('#test').show();
+
 };
+
+function exportTable() {
+    //definisce le informazioni del nostro file Excel
+    var tab_text = '<html xmlns:x = "urn:schemas-microsoft-com:office:excel">';
+    tab_text += "<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>";
+    tab_text += "<x:Name>Test Sheet</x:Name>";
+    tab_text += "<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>";
+    tab_text += "</x:ExcelWorksheets></x:ExcelWorkbook></xml></head>";
+
+    tab_text += "<body><table border='1px'>";
+    tab_text += $("#myTable").html();
+    tab_text += "</table></body></html>";
+
+    // indica come leggere il dato: file excel
+    var data_type = 'data:application/vnd.ms_excel';
+
+    $('#test').attr('href', data_type + ',' + encodeURIComponent(tab_text));
+    $('#test').attr('download', 'Test fbFeed.xls');
+}
