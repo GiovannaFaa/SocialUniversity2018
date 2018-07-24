@@ -1,4 +1,4 @@
-window.onload =  function () {
+document.getElementById("myBtn").onclick =  function () {
     // snippet per SDK facebook
     window.fbAsyncInit = function() {
         FB.init({
@@ -16,10 +16,26 @@ window.onload =  function () {
         FB.api('/struggletodecide?fields=name,feed',
             {access_token : pageAccessToken},
             function(response) {
-                console.log(response);
-            }
+                // console.log(response);
+                var myJSON, myObj, i, txt;
+                myJSON = JSON.stringify(response);
+                myObj = JSON.parse(myJSON);
+                //document.getElementById("demo").innerHTML = myJSON;
+                console.log(myObj);
 
-        );
+                txt = "<table id='myTable' cellpadding='6px'><thead><tr><td>"+ myObj.name +
+                    "</td></tr></thead><tbody>";
+                for(i in myObj.feed.data){
+                    txt += "<tr><td>" + myObj.feed.data[i].message + "</td>"+
+                        "<td>" + myObj.feed.data[i].story +  "</td>" +
+                        "<td>" + myObj.feed.data[i].created_time +  "</td>" +
+                        "</tr>";
+                }
+                txt += "</tbody></table>";
+
+                document.getElementById("demo").innerHTML = txt;
+
+            });
     };
 
     (function(d, s, id){
@@ -29,4 +45,5 @@ window.onload =  function () {
         js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
 };
